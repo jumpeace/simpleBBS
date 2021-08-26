@@ -1,0 +1,267 @@
+body {
+    background-color: hsl(200, 97%, 97%);
+}
+
+#container {
+    margin: 40px 0;
+
+    display: grid;
+    grid-template-rows: [header] auto [post] auto [create-reply]auto [replies] auto;
+    justify-content: center;
+    row-gap: 30px;
+
+    & > * {
+        margin: 0 auto;
+    }
+
+    #header, #post {
+        width: 90%;
+
+        @media screen and (min-width:768px) {
+            width: 768px * 0.9;
+        }
+    }
+
+    #header {
+        grid-row: header;
+        width: 100%;
+        height: 30px;
+
+        display: grid;
+        grid-template-columns: [previous-link]1fr [title]1fr 1fr;
+        align-items: center;
+
+        .previous-link {
+            grid-column: previous-link;
+
+            padding-left: 50px;
+
+            text-align: start;
+            color: #888;
+            font-size: 18px;
+            text-decoration: none;
+
+            &:hover {
+                color: #222;
+            }
+        }
+
+        .title {
+            grid-column: title;
+
+            text-align: center;
+            color: #666;
+            font-size: 24px;
+            font-weight: lighter;
+        }
+    }
+
+    #post {
+        grid-row: post;
+
+        display: flex;
+        flex-direction: column;
+        padding: 10px 30px;
+
+        background-color: #fff;
+        border: 1px solid #aaa;
+        box-shadow: 3px 3px #f8f8f8;
+
+        .material-icons {
+            width: 30px;
+            text-align: center;
+        }
+
+        .message {
+            flex-grow: 1;
+            margin: 5px 0;
+
+            text-align: start;
+            line-height: 24px;
+            font-size: 16px;
+        }
+        .bottom-container {
+            width: 100%;
+
+            display: grid;
+            grid-template-columns: 20px [heart] 70px 1fr [delete] auto [write_time] auto ;
+            flex-direction: column;
+            justify-content: center;
+            column-gap: 10px;
+
+            & > * {
+                height: 20px;
+
+                line-height: 20px;
+                font-size: 14px;
+            }
+
+            .heart {
+                grid-column: heart;
+
+                color: #888;
+                font-size: 18px;
+                user-select: none;
+
+                .material-icons {
+                    cursor: pointer;
+                    &:hover {
+                        color: hsl(330, 80%, 80%);
+                    }
+                }
+                .count {
+                    text-align: start;
+                    font-size: 12px;
+                }
+            }
+
+            .write-time {
+                grid-column: write_time;
+
+                text-align: end;
+                color: #aaa;
+            }
+
+            .delete {
+                grid-column: delete;
+
+                display: flex;
+
+                text-align: end;
+                user-select: none;
+
+                button {
+                    background-color: inherit;
+                    color: #888;
+                    border: none;
+                    font-size: 18px;
+                    cursor: pointer;
+
+                    &:hover {
+                        color: #222;
+                    }
+                }
+
+            }
+
+        }
+    }
+
+    #replies, #create-reply {
+        width: 85%;
+        @media screen and (min-width:768px) {
+            width: 768px * 0.85;
+        }
+    }
+
+    #create-reply {
+        grid-row: create-reply;
+
+        form {
+            display: grid;
+            grid-template-columns: [message-input] 1fr [submit] auto;
+            justify-content: center;
+            column-gap: 15px;
+
+            & > * {
+                height: 30px;
+                background-color: #fff;
+            }
+
+            input[name=message] {
+                grid-column: message-input;
+
+                border: 1px solid #444;
+                font-size: 16px;
+                font-weight: lighter;
+            }
+
+            button {
+                grid-column: submit;
+
+                border: 1px solid #444;
+                color: #666;
+                font-size: 16px;
+                cursor: pointer;
+            }
+        }
+
+    }
+
+    #replies {
+        grid-row: replies;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        row-gap: 10px;
+
+        .reply-container {
+            width: 100%;
+
+            display: flex;
+            flex-direction: column;
+            padding: 10px 30px;
+
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 3px 3px #f8f8f8;
+
+            .message {
+                flex-grow: 1;
+                margin: 5px 0;
+
+                text-align: start;
+                line-height: 24px;
+                font-size: 16px;
+            }
+
+            .bottom-container {
+                width: 100%;
+
+                display: grid;
+                grid-template-columns: 1fr [delete] auto [write_time] auto ;
+                flex-direction: column;
+                justify-content: center;
+                column-gap: 10px;
+
+                & > * {
+                    height: 20px;
+
+                    line-height: 20px;
+                    font-size: 14px;
+                }
+
+                .write-time {
+                    grid-column: write_time;
+
+                    text-align: end;
+                    color: #aaa;
+                }
+
+                .delete {
+                    grid-column: delete;
+
+                    display: flex;
+
+                    text-align: end;
+                    user-select: none;
+
+                    button {
+                        background-color: inherit;
+                        color: #888;
+                        border: none;
+                        font-size: 18px;
+                        cursor: pointer;
+
+                        &:hover {
+                            color: #222;
+                        }
+                    }
+                }
+
+            }
+        }
+
+    }
+}

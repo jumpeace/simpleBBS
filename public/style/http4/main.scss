@@ -1,0 +1,34 @@
+body {
+    height: 100vh;
+    background-color: hsl(200, 97%, 97%);
+}
+
+.container {
+    height: 100%;
+
+    display: grid;
+    grid-template-rows: 1fr [message] auto [home-link] auto 1fr;
+    justify-content: center;
+    align-items: center;
+    row-gap: 30px;
+
+    & > * {
+        text-align: center;
+        font-size: 18px;
+    }
+
+    .message {
+        grid-row: message;
+    }
+    .home-link {
+        grid-row: home-link;
+
+        color: #888;
+        text-decoration: none;
+        cursor: pointer;
+
+        &:hover {
+            color: #222;
+        }
+    }
+}

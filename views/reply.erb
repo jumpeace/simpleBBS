@@ -1,0 +1,28 @@
+<link rel="stylesheet" href="/style/reply/main.css" />
+<div id="container" data-post-id=<%= @post['id'] %>>
+    <div id="header">
+        <a class="previous-link" href="/post/">
+            <span class="material-icons">arrow_back</span>
+        </a>
+        <div class="title">返信</div>
+    </div>
+    <div id="post">
+        <div class="message"><%= @post['message'] %></div>
+        <div class="bottom-container">
+            <div class="heart">
+                <span class="material-icons">favorite_border</span>
+                <span class="count"><%= @post['heart'] %></span>
+            </div>
+            <div></div>
+            <div>
+                <form class="delete" method="post" action="/api/post/<%= @post['id'] %>/delete/">
+                    <button class="material-icons">delete</button>
+                </form>
+            </div>
+            <div class="write-time"><%= @post['write_time'] %></div>
+        </div>
+    </div>
+    <div id="create-reply"></div>
+    <div id="replies"></div>
+</div>
+<script src="/ajax/reply.js"></script>
