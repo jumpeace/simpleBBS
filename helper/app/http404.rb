@@ -13,10 +13,4 @@ class Http404
   def getDocumentType()
     return @document_type
   end
-  # def type()
-  #   {
-  #     'set' => ->(arg) { @document_type = arg }
-  #     'get' => ->(arg) { return @document_type }
-  #   }
-  # end
 end
