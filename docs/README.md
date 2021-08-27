@@ -8,3 +8,10 @@
 - Ajax
 - デザインを綺麗にした
 - 最新が上になるように投稿している
+
+# レポート原理
+
+- Ajax
+- ModelとController
+- jQuery
+- (SCSS, CSS)

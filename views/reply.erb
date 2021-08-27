@@ -13,7 +13,6 @@
                 <span class="material-icons">favorite_border</span>
                 <span class="count"><%= @post['heart'] %></span>
             </div>
-            <div></div>
             <div>
                 <form class="delete" method="post" action="/api/post/<%= @post['id'] %>/delete/">
                     <button class="material-icons">delete</button>
@@ -25,4 +24,4 @@
     <div id="create-reply"></div>
     <div id="replies"></div>
 </div>
-<script src="/ajax/reply.js"></script>
+<script src="/ajax/reply_test.js"></script>
