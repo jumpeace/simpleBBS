@@ -1,10 +1,11 @@
 require './app/post/controllers'
 require './app/reply/controllers'
 
+# アプリ名からControllerを取得する
 def controller_by_appname(appname)
-  data = {
-    'post'=> PostController.instance,
-    'reply'=> ReplyController.instance
+  controller_classes = {
+    'post'=> PostController,
+    'reply'=> ReplyController
   }
-  data[appname]
+  controller_classes[appname].instance
 end

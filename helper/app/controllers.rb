@@ -4,20 +4,20 @@ require './app/models'
 require './app/post/models'
 require './helper/app/http404'
 
-# 各appのControllerのベース
+# 各アプリのControllerのベース
 class AppController
   include Singleton
 
   attr_accessor :appname, :foreign_appnames, :foreign_columns, :model, :columns, :is_all, :select_column
 
   def initialize(appname, columns, foreign_appnames)
-    # Appの名前
+    # アプリ名
     @appname = appname
     # モデルの名前
     @model = model_by_appname(appname)
     # モデルの普通のカラムのうち、作成時に使うカラム
     @columns = columns
-    # 外部キーによってリレーションがあるAppの名前
+    # 外部キーによってリレーションがあるアプリ名
     @foreign_appnames = foreign_appnames
     # モデルの外部キーのカラム
     @foreign_columns = @foreign_appnames.map{ |el| "#{el}_id" }
@@ -32,7 +32,7 @@ class AppController
     Rack::Utils.escape_html(text)
   end
 
-  # リクエストからリクエストボディに変換する
+  # リクエストから連想配列のリクエストボディに変換する
   def request_to_request_body(request)
     JSON.parse(request.body.read).with_indifferent_access
   end
@@ -51,13 +51,13 @@ class AppController
     generate_response({}, 404)
   end
 
-  # 任意のappのレコードを取得する
+  # 任意のアプリのModelのレコードを取得する
   def get_record(appname, params)
     model = model_by_appname(appname)
     model.find_by(id: h(params["#{appname}_id"]))
   end
 
-  # 該当するappのレコードを取得する
+  # 該当するアプリのModelのレコードを取得する
   def get_main_record(params)
     get_record(@appname, params)
   end
