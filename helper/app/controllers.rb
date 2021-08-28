@@ -4,18 +4,25 @@ require './app/models'
 require './app/post/models'
 require './helper/app/http404'
 
+# AppのControllerのベース
 class AppController
   include Singleton
 
-  attr_accessor :appname, :foreign_appnames, :foreign_fields,
-  :model, :fields, :is_all, :select_field
+  attr_accessor :appname, :foreign_appnames, :foreign_columns,
+  :model, :columns, :is_all, :select_field
 
-  def initialize(appname, fields, foreign_appnames)
+  def initialize(appname, columns, foreign_appnames)
+    # Appの名前
     @appname = appname
+    # モデルの名前
     @model = model_by_appname(appname)
-    @fields = fields
+    # モデルの普通のカラムのうち、作成時に使うカラム
+    @columns = columns
+    # 外部キーによってリレーションがあるAppの名前
     @foreign_appnames = foreign_appnames
-    @foreign_fields = @foreign_appnames.map{ |el| "#{el}_id" }
+    # モデルの外部キーのカラム
+    @foreign_columns = @foreign_appnames.map{ |el| "#{el}_id" }
+    # モデルの外部キーのカラム
     @is_all = @foreign_appnames.count.zero?
     @select_field = @is_all ? nil : "#{@foreign_appnames[0]}_id"
   end
@@ -81,11 +88,11 @@ class AppController
 
     request_body = request_to_request_body(request)
     record = @model.new
-    @fields.each do |field|
+    @columns.each do |field|
       record[field] = h(request_body[field])
     end
 
-    @foreign_fields.each do |field|
+    @foreign_columns.each do |field|
       record[field] = h(params[field])
     end
     record.save
