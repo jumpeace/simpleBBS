@@ -9,7 +9,7 @@ class AppController
   include Singleton
 
   attr_accessor :appname, :foreign_appnames, :foreign_columns,
-  :model, :columns, :is_all, :select_field
+  :model, :columns, :is_all, :select_column
 
   def initialize(appname, columns, foreign_appnames)
     # Appの名前
@@ -22,11 +22,13 @@ class AppController
     @foreign_appnames = foreign_appnames
     # モデルの外部キーのカラム
     @foreign_columns = @foreign_appnames.map{ |el| "#{el}_id" }
-    # モデルの外部キーのカラム
+    # 一覧を取得するときに、全部取得するかどうか
     @is_all = @foreign_appnames.count.zero?
-    @select_field = @is_all ? nil : "#{@foreign_appnames[0]}_id"
+    # 一覧を取得するときに、
+    @select_column = @is_all ? nil : "#{@foreign_appnames[0]}_id"
   end
 
+  # サニタイジングの処理
   def h(text)
     Rack::Utils.escape_html(text)
   end
@@ -75,7 +77,7 @@ class AppController
       return generate_404_response()
     end
 
-    record = @is_all ? @model.all : @model.where("#{@select_field} = ?", h(params[@select_field]))
+    record = @is_all ? @model.all : @model.where("#{@select_column} = ?", h(params[@select_column]))
     record.nil? && record = []
 
     generate_response({ @appname.pluralize => record }, 200)
@@ -88,12 +90,12 @@ class AppController
 
     request_body = request_to_request_body(request)
     record = @model.new
-    @columns.each do |field|
-      record[field] = h(request_body[field])
+    @columns.each do |column|
+      record[column] = h(request_body[column])
     end
 
-    @foreign_columns.each do |field|
-      record[field] = h(params[field])
+    @foreign_columns.each do |column|
+      record[column] = h(params[column])
     end
     record.save
 
