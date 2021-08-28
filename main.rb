@@ -7,7 +7,7 @@ require './app/controllers'
 set :environment, :production
 
 before do
-  Http404.instance.setDocumentType('erb')
+  Http404.instance.document_type = 'erb'
 end
 
 get '/' do
@@ -23,7 +23,7 @@ get '/post/:post_id/reply/' do
     call env.merge('PATH_INFO' => "/api/post/#{params[:post_id]}/")
   if status == 404
     status 404
-    Http404.instance.setDocumentType('erb')
+    Http404.instance.document_type = 'erb'
     return
   end
 
@@ -81,7 +81,7 @@ post '/api/post/:post_id/reply/:reply_id/delete/' do
 end
 
 not_found do
-  document_type = Http404.instance.getDocumentType()
+  document_type = Http404.instance.document_type
   if document_type == 'erb'
     @status = 404
     @message = 'このページは存在しません'
