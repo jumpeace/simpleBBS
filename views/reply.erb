@@ -1,11 +1,15 @@
 <link rel="stylesheet" href="/style/reply/main.css" />
 <div id="container" data-post-id=<%= @post['id'] %>>
+
+    <!-- リンクとタイトルゾーン -->
     <div id="header">
         <a class="previous-link" href="/post/">
             <span class="material-icons">arrow_back</span>
         </a>
         <div class="title">返信</div>
     </div>
+
+    <!-- 該当する投稿の表示ゾーン -->
     <div id="post">
         <div class="message"><%= @post['message'] %></div>
         <div class="bottom-container">
@@ -21,7 +25,11 @@
             <div class="write-time"><%= @post['write_time'] %></div>
         </div>
     </div>
+
+    <!-- 返信を作成するフォーム -->
     <div id="create-reply"></div>
+
+    <!-- 投稿に対する返信の一覧を表示するゾーン -->
     <div id="replies"></div>
 </div>
 <script src="/ajax/reply.js"></script>

@@ -5,10 +5,13 @@ url.post = `${url.api}post/`;
 url.heart = (postId) => `${url.post}${postId}/heart/`;
 url.reply = (postId) => `${url.post}${postId}/reply/`;
 
+// 返信一覧に関しての管理を行う
 class Replies {
     constructor(fks) {
+        // 外部キー
         this.fks = fks;
     }
+    // 1件の投稿の返信数を取得する
     getNum = async () => {
         let replyNum;
         await $.ajax({
@@ -24,15 +27,19 @@ class Replies {
     }
 }
 
+// 1件の投稿に関しての管理を行う
 class Post {
-    constructor(id, fks, foreignRecords) {
+    constructor(id, fks) {
+        // id
         this.id = id;
+        // 外部キー
         this.fks = fks;
-        this.foreignRecords = foreignRecords;
 
         this.delete();
         this.incrementHeart();
     }
+
+    // 削除ボタンが押されたら、該当する投稿を削除する
     delete = () => {
         const deleteForm = $(`#post-${this.id} .delete`);
         deleteForm.submit(event => {
@@ -42,6 +49,7 @@ class Post {
                 return acc;
             }, {})
 
+            // 削除するかどうかを尋ねて、はいが押された場合のみ削除処理に移る
             if (!confirm('本当に削除しますか？')) return false;
 
             // Ajax通信を開始
@@ -54,12 +62,15 @@ class Post {
                 timeout: 5000,
             })
             .done((resultData) => {
+                // 投稿一覧表示から投稿を削除する
                 const postId = resultData['post_id'];
                 $(`#post-${postId}`).remove();
             })
             return false;
         })
     }
+
+    // いいねボタンが押されたら、該当する投稿のいいね数を増やす
     incrementHeart = () => {
         const heartDom = $(`#post-${this.id} .heart .material-icons`);
         heartDom.click(event => {
@@ -72,6 +83,7 @@ class Post {
                 timeout: 5000,
             })
             .done((resultData) => {
+                // いいね数の表示を変更
                 const hashData = JSON.parse(resultData);
                 $(`#post-${hashData['id']} .heart > .count`).html(hashData['heart']);
             })
@@ -80,6 +92,7 @@ class Post {
     }
 }
 
+// 投稿一覧に関しての管理を行う
 class Posts {
     constructor(fks) {
         this.fks = fks;
@@ -91,6 +104,8 @@ class Posts {
         this.get();
         this.create();
     }
+
+    // 投稿を投稿一覧表示に追加
     add = async (post) => {
         const replies = new Replies({ 'post': post['id'] });
         const replyNum = await replies.getNum();
@@ -114,6 +129,8 @@ class Posts {
 
         new Post(post['id'], this.fks, { 'reply': replies });
     }
+
+    // 投稿一覧を取得
     get = async () => {
         await $.ajax({
             url: url.post,
@@ -123,11 +140,14 @@ class Posts {
         .done(async (resultData) => {
             const hashData = JSON.parse(resultData);
             const posts = hashData['posts'];
+            // すべての投稿を投稿一覧表示に追加
             for(let i = 0; i < posts.length; i++) {
                 await this.add(posts[i]);
             }
         })
     }
+
+    // 投稿作成フォームが作成されたら、投稿を作成する
     create = async() => {
         const createForm = $('#create-post > form');
         createForm.submit(async event => {
@@ -146,7 +166,10 @@ class Posts {
             timeout: 5000,
             })
             .done(async (resultData) => {
+                // 投稿を投稿一覧表示に追加
                 await this.add(resultData['post']);
+
+                // 投稿作成フォームのリセット
                 createForm.find('input[name=message]').val('');
                 createForm.find('input[name=message]').focus();
             })
@@ -155,6 +178,7 @@ class Posts {
     }
 }
 
+// 画面読み込み後の処理
 $(document).ready(async () => {
     new Posts({});
 });
