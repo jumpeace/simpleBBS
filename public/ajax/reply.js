@@ -13,6 +13,7 @@ class Reply {
         // 外部キー
         this.fks = fks;
 
+        // 処理が来るまで待機するメソッドを実行しておく
         this.delete();
     }
 
@@ -59,6 +60,8 @@ class Replies {
         $('#create-reply > form').append(`<button>返信</button>`);
 
         this.get();
+
+        // 処理が来るまで待機するメソッドを実行しておく
         this.create();
     }
 
@@ -77,12 +80,12 @@ class Replies {
         $(`#reply-${reply['id']} .bottom-container`).append(
             `<span class="write-time">${reply['write_time']}</span>`);
 
-        console.log(reply['id'])
         new Reply(reply['id'], this.fks, {});
     }
 
-    // 1券の投稿に対しての返信一覧を取得
+    // 1件の投稿に対しての返信一覧を取得
     get = () => {
+        // Ajax通信を開始
         $.ajax({
             url: `${url.post}${this.fks['post']}/reply/`,
             type: 'get',
@@ -91,6 +94,8 @@ class Replies {
           .done((resultData) => {
               const hashData = JSON.parse(resultData);
               const replies = hashData['replies'];
+
+              // 返信を上から最新順になるようにDOMに追加する
               replies.forEach(reply => {
                   this.add(reply);
               });
@@ -137,6 +142,7 @@ class Post {
         // 外部キー
         this.fks = fks;
 
+        // 処理が来るまで待機するメソッドを実行しておく
         this.delete();
         this.incrementHeart();
     }

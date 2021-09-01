@@ -1,7 +1,7 @@
 require './app/post/controllers'
 require './app/reply/controllers'
 
-# アプリ名からControllerを取得する
+# 機能アプリ名からControllerを取得する
 def controller_by_appname(appname)
   controller_classes = {
     'post'=> PostController,

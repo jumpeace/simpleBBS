@@ -14,6 +14,7 @@ class Replies {
     // 1件の投稿の返信数を取得する
     getNum = async () => {
         let replyNum;
+
         await $.ajax({
             url: url.reply(this.fks['post']),
             type: 'get',
@@ -23,6 +24,7 @@ class Replies {
             const hash = JSON.parse(resultData);
             replyNum = hash['replies'].length;
         })
+
         return replyNum;
     }
 }
@@ -35,6 +37,7 @@ class Post {
         // 外部キー
         this.fks = fks;
 
+        // 処理が来るまで待機するメソッドを実行しておく
         this.delete();
         this.incrementHeart();
     }
@@ -101,7 +104,10 @@ class Posts {
         $('#create-post > form').append(
             `<input type="text" name="message" autofocus>`);
         $('#create-post > form').append(`<button>投稿</button>`);
+
         this.get();
+
+        // 処理が来るまで待機するメソッドを実行しておく
         this.create();
     }
 
@@ -132,6 +138,7 @@ class Posts {
 
     // 投稿一覧を取得
     get = async () => {
+        // Ajax通信を開始
         await $.ajax({
             url: url.post,
             type: 'get',
@@ -140,7 +147,8 @@ class Posts {
         .done(async (resultData) => {
             const hashData = JSON.parse(resultData);
             const posts = hashData['posts'];
-            // すべての投稿を投稿一覧表示に追加
+
+            // 投稿一覧を上から最新順になるようにDOMに追加
             for(let i = 0; i < posts.length; i++) {
                 await this.add(posts[i]);
             }
@@ -159,11 +167,11 @@ class Posts {
 
             // Ajax通信を開始
             await $.ajax({
-            url: createForm.prop('action'),
-            type: createForm.prop('method'),
-            dataType: 'json',
-            data: JSON.stringify(sendData),
-            timeout: 5000,
+                url: createForm.prop('action'),
+                type: createForm.prop('method'),
+                dataType: 'json',
+                data: JSON.stringify(sendData),
+                timeout: 5000,
             })
             .done(async (resultData) => {
                 // 投稿を投稿一覧表示に追加
