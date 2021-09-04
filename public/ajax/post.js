@@ -113,9 +113,11 @@ class Posts {
 
     // 投稿を投稿一覧表示に追加
     add = async (post) => {
+        // 返信数を取得
         const replies = new Replies({ 'post': post['id'] });
         const replyNum = await replies.getNum();
 
+        // DOMに投稿を追加
         $('#posts').prepend(`<div id="post-${post['id']}"  class="post"></div>`);
         $(`#post-${post['id']}`).append(
             `<span class="message">${post['message']}</span>`);
@@ -133,6 +135,7 @@ class Posts {
         $(`#post-${post['id']} .bottom-container`).append(
             `<span class="write-time">${post['write_time']}</span>`);
 
+        // 各投稿に対して処理を行うクラスを呼び出す
         new Post(post['id'], this.fks, { 'reply': replies });
     }
 
