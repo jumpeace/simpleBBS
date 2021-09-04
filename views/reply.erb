@@ -9,19 +9,23 @@
         <div class="title">返信</div>
     </div>
 
-    <!-- 該当する投稿の表示ゾーン -->
+    <!-- 投稿の表示ゾーン -->
     <div id="post">
+        <!-- メッセージ -->
         <div class="message"><%= @post['message'] %></div>
         <div class="bottom-container">
+            <!-- いいね数 -->
             <div class="heart">
                 <span class="material-icons">favorite_border</span>
                 <span class="count"><%= @post['heart'] %></span>
             </div>
+            <!-- 削除フォーム -->
             <div>
                 <form class="delete" method="post" action="/api/post/<%= @post['id'] %>/delete/">
                     <button class="material-icons">delete</button>
                 </form>
             </div>
+            <!-- 書き込み時間 -->
             <div class="write-time"><%= @post['write_time'] %></div>
         </div>
     </div>
