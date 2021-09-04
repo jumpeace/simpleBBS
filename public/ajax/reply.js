@@ -67,6 +67,7 @@ class Replies {
 
     // 返信を返信一覧表示に追加
     add = (reply) => {
+        // DOMに返信を追加
         $('#replies').prepend(`<div id="reply-${reply['id']}"  class="reply-container"></div>`);
         $(`#reply-${reply['id']}`).append(
             `<span class="message">${reply['message']}</span>`);
@@ -80,6 +81,7 @@ class Replies {
         $(`#reply-${reply['id']} .bottom-container`).append(
             `<span class="write-time">${reply['write_time']}</span>`);
 
+        // 各返信に対して処理を行うクラスを呼び出す
         new Reply(reply['id'], this.fks, {});
     }
 
