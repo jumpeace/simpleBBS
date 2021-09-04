@@ -60,21 +60,21 @@ post '/api/post/' do
   body response['body']
 end
 
-# 指定された投稿を取得するエンドポイント
+# 特定の投稿を取得するエンドポイント
 get '/api/post/:post_id/' do
   response = controller_by_appname('post').detail(params)
   status response['status']
   body response['body']
 end
 
-# 指定された投稿を削除するエンドポイント
+# 特定の投稿を削除するエンドポイント
 post '/api/post/:post_id/delete/' do
   response = controller_by_appname('post').delete(params)
   status response['status']
   body response['body']
 end
 
-# 指定された投稿のいいね数を増やすエンドポイント
+# 特定の投稿のいいね数を増やすエンドポイント
 post '/api/post/:post_id/heart/increment/' do
   response = controller_by_appname('post').increment_heart(params)
   status response['status']
